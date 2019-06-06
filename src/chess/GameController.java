@@ -1,5 +1,6 @@
 package chess;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class GameController {
@@ -11,7 +12,7 @@ public class GameController {
         playerInput = new Scanner(System.in);
     }
     
-    public void startGame() {
+    public void startGame() throws IOException {
         newBoard.displayBoard();
         System.out.println("This program uses algebraic chess notation as input to determine moves.");
         System.out.println("The response from input your will vary depending on the legality of your move.");
