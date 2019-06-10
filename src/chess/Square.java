@@ -24,7 +24,8 @@ public class Square extends JPanel {
         this.occupyingPiece = occupyingPiece;
         if(occupyingPiece != null) {
             BufferedImage img = ImageIO.read(this.getClass().getResource(occupyingPiece.iconSrc));
-            JLabel icon = new JLabel(new ImageIcon(img));
+            Image scaledImg = img.getScaledInstance(80, 80, img.SCALE_SMOOTH);
+            JLabel icon = new JLabel(new ImageIcon(scaledImg));
             super.add(icon);
         }
         super.setBackground(squareColor);
