@@ -1,15 +1,12 @@
 package chess;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.io.IOException;
-import java.util.HashMap;
-import javax.swing.JFrame;
+import java.util.LinkedList;
 
 public class Board {
     boolean isWhiteTurn;
-    public JFrame boardFrame;
-    public GridLayout boardGrid;
-    public HashMap squareAndPiece;
+    private LinkedList<Square> squares;
+    BoardGraphics boardGraphics;
     Square a1;
     Square a2;
     Square a3;
@@ -84,12 +81,9 @@ public class Board {
     
     public Board() throws IOException {
         isWhiteTurn = true;
-        boardFrame = new JFrame();
-        boardGrid = new GridLayout(8, 8);
-        boardFrame.setSize(800, 800);
-        // Define starting pieces
+        squares = new LinkedList<Square>();
         
-        //Uo, Down, Left, Right, DUL, DUR, DDL, DDR
+        //Name, x, y, piece, Up, Down, Left, Right, DUL, DUR, DDL, DDR
         a1 = new Square("a1", 1, 8, new Rook(1, 8, true), a2, null, null, b1, null, b2, null, null, Color.decode("#1fafae"));
         a2 = new Square("a2", 2, 8, new Pawn(2, 8, true), a3, a1, null, b2, null, b3, null, b1, Color.decode("#fffefc"));
         a3 = new Square("a3", 3, 8, null, a4, a2, null, b3, null, b4, null, b2, Color.decode("#1fafae"));
@@ -99,167 +93,273 @@ public class Board {
         a7 = new Square("a7", 7, 8, new Pawn(7, 1, false), a8, a6, null, b7, null, b8, null, b6, Color.decode("#1fafae"));
         a8 = new Square("a8", 8, 8, new Rook(8, 8, false), null, a7, null, b8, null, null, null, b7, Color.decode("#fffefc"));
         
-        b1 = new Square("b1", 1, 7, new Knight(1, 7, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        b2 = new Square("b2", 2, 7, new Pawn(2, 7, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        b3 = new Square("b3", 3, 7, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        b4 = new Square("b4", 4, 7, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        b5 = new Square("b5", 5, 7, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        b6 = new Square("b6", 6, 7, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        b7 = new Square("b7", 7, 7, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        b8 = new Square("b8", 8, 7, new Knight(8, 7, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
+        b1 = new Square("b1", 1, 7, new Knight(1, 7, true), b2, null, a1, c1, a2, c2, null, null, Color.decode("#fffefc"));
+        b2 = new Square("b2", 2, 7, new Pawn(2, 7, true), b3, b1, a2, c2, a3, c3, a1, c1, Color.decode("#1fafae"));
+        b3 = new Square("b3", 3, 7, null, b4, b2, a3, c3, a4, c4, a2, c2, Color.decode("#fffefc"));
+        b4 = new Square("b4", 4, 7, null, b5, b3, a4, c4, a5, c5, a3, c3, Color.decode("#1fafae"));
+        b5 = new Square("b5", 5, 7, null, b6, b4, a5, c5, a6, c6, a4, c4, Color.decode("#fffefc"));
+        b6 = new Square("b6", 6, 7, null, b7, b5, a6, c6, a7, c7, a5, c5, Color.decode("#1fafae"));
+        b7 = new Square("b7", 7, 7, new Pawn(7, 1, false), b8, b6, a7, c7, a8, c8, a6, c6, Color.decode("#fffefc"));
+        b8 = new Square("b8", 8, 7, new Knight(8, 7, false), null, b7, a8, c8, null, null, a7, c7, Color.decode("#1fafae"));
         
-        c1 = new Square("c1", 1, 6, new Bishop(1, 6, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        c2 = new Square("c2", 2, 6, new Pawn(2, 6, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        c3 = new Square("c3", 3, 6, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        c4 = new Square("c4", 4, 6, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        c5 = new Square("c5", 5, 6, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        c6 = new Square("c6", 6, 6, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        c7 = new Square("c7", 7, 6, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        c8 = new Square("c8", 8, 6, new Bishop(8, 6, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
+        c1 = new Square("c1", 1, 6, new Bishop(1, 6, true), c2, null, b1, d1, b2, d2, null, null, Color.decode("#1fafae"));
+        c2 = new Square("c2", 2, 6, new Pawn(2, 6, true), c3, c1, b2, d2, b3, d3, b1, d1, Color.decode("#fffefc"));
+        c3 = new Square("c3", 3, 6, null, c4, c2, b3, d3, b4, d4, b2, d2, Color.decode("#1fafae"));
+        c4 = new Square("c4", 4, 6, null, c5, c3, b4, d4, b5, d5, b3, d3, Color.decode("#fffefc"));
+        c5 = new Square("c5", 5, 6, null, c6, c4, b5, d5, b6, d6, b4, d4, Color.decode("#1fafae"));
+        c6 = new Square("c6", 6, 6, null, c7, c5, b6, d6, b7, d7, b5, d5, Color.decode("#fffefc"));
+        c7 = new Square("c7", 7, 6, new Pawn(7, 1, false), c8, c6, b7, d7, b8, d8, b6, d6, Color.decode("#1fafae"));
+        c8 = new Square("c8", 8, 6, new Bishop(8, 6, false), null, c7, b8, d8, null, null, b7, d7, Color.decode("#fffefc"));
         
-        d1 = new Square("d1", 1, 5, new Queen(1, 5, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        d2 = new Square("d2", 2, 5, new Pawn(2, 5, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        d3 = new Square("d3", 3, 5, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        d4 = new Square("d4", 4, 5, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        d5 = new Square("d5", 5, 5, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        d6 = new Square("d6", 6, 5, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        d7 = new Square("d7", 7, 5, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        d8 = new Square("d8", 8, 5, new Queen(8, 5, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
+        d1 = new Square("d1", 1, 5, new Queen(1, 5, true), d2, null, c1, e1, c2, e2, null, null, Color.decode("#fffefc"));
+        d2 = new Square("d2", 2, 5, new Pawn(2, 5, true), d3, d1, c2, e2, c3, e3, c1, e1, Color.decode("#1fafae"));
+        d3 = new Square("d3", 3, 5, null, d4, d2, c3, e3, c4, e4, c2, e2, Color.decode("#fffefc"));
+        d4 = new Square("d4", 4, 5, null, d5, d3, c4, e4, c5, e5, c3, e3, Color.decode("#1fafae"));
+        d5 = new Square("d5", 5, 5, null, d6, d4, c5, e5, c6, e6, c4, e4, Color.decode("#fffefc"));
+        d6 = new Square("d6", 6, 5, null, d7, d5, c6, e6, c7, e7, c5, e5, Color.decode("#1fafae"));
+        d7 = new Square("d7", 7, 5, new Pawn(7, 1, false), d8, d6, c7, e7, c8, e8, c6, e6, Color.decode("#fffefc"));
+        d8 = new Square("d8", 8, 5, new Queen(8, 5, false), null, d7, c8, e8, null, null, c7, e7, Color.decode("#1fafae"));
         
-        e1 = new Square("e1", 1, 4, new King(1, 4, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        e2 = new Square("e2", 2, 4, new Pawn(2, 4, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        e3 = new Square("e3", 3, 4, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        e4 = new Square("e4", 4, 4, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        e5 = new Square("e5", 5, 4, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        e6 = new Square("e6", 6, 4, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        e7 = new Square("e7", 7, 4, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        e8 = new Square("e8", 8, 4, new King(8, 4, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
+        e1 = new Square("e1", 1, 4, new King(1, 4, true), e2, null, d1, f1, d2, f2, null, null, Color.decode("#1fafae"));
+        e2 = new Square("e2", 2, 4, new Pawn(2, 4, true), e3, e1, d2, f2, d3, f3, d1, f1, Color.decode("#fffefc"));
+        e3 = new Square("e3", 3, 4, null, e4, e2, d3, f3, d4, f4, d2, f2, Color.decode("#1fafae"));
+        e4 = new Square("e4", 4, 4, null, e5, e3, d4, f4, d5, f5, d3, f3, Color.decode("#fffefc"));
+        e5 = new Square("e5", 5, 4, null, e6, e4, d5, f5, d6, f6, d4, f4, Color.decode("#1fafae"));
+        e6 = new Square("e6", 6, 4, null, e7, e5, d6, f6, d7, f7, d5, f5, Color.decode("#fffefc"));
+        e7 = new Square("e7", 7, 4, new Pawn(7, 1, false), e8, e6, d7, f7, d8, f8, d6, f6, Color.decode("#1fafae"));
+        e8 = new Square("e8", 8, 4, new King(8, 4, false), null, e7, d8, f8, null, null, d7, f7, Color.decode("#fffefc"));
         
-        f1 = new Square("f1", 1, 3, new Bishop(1, 3, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        f2 = new Square("f2", 2, 3, new Pawn(2, 3, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        f3 = new Square("f3", 3, 3, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        f4 = new Square("f4", 4, 3, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        f5 = new Square("f5", 5, 3, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        f6 = new Square("f6", 6, 3, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        f7 = new Square("f7", 7, 3, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        f8 = new Square("f8", 8, 3, new Bishop(8, 3, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
+        f1 = new Square("f1", 1, 3, new Bishop(1, 3, true), f2, null, e1, g1, e2, g2, null, null, Color.decode("#fffefc"));
+        f2 = new Square("f2", 2, 3, new Pawn(2, 3, true), f3, f1, e2, g2, e3, g3, e1, g1, Color.decode("#1fafae"));
+        f3 = new Square("f3", 3, 3, null, f4, f2, e3, g3, e4, g4, e2, g2, Color.decode("#fffefc"));
+        f4 = new Square("f4", 4, 3, null, f5, f3, e4, g4, e5, g5, e3, g3, Color.decode("#1fafae"));
+        f5 = new Square("f5", 5, 3, null, f6, f4, e5, g5, e6, g6, e4, g4, Color.decode("#fffefc"));
+        f6 = new Square("f6", 6, 3, null, f7, f5, e6, g6, e7, g7, e5, g5, Color.decode("#1fafae"));
+        f7 = new Square("f7", 7, 3, new Pawn(7, 1, false), f8, f6, e7, g7, e8, g8, e6, g6, Color.decode("#fffefc"));
+        f8 = new Square("f8", 8, 3, new Bishop(8, 3, false), null, f7, e8, g8, null, null, e7, g7, Color.decode("#1fafae"));
         
-        g1 = new Square("g1", 1, 2, new Knight(1, 2, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        g2 = new Square("g2", 2, 2, new Pawn(2, 2, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        g3 = new Square("g3", 3, 2, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        g4 = new Square("g4", 4, 2, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        g5 = new Square("g5", 5, 2, null, null, null, null, null, null, null, null, null, Color.decode("#f1fafae"));
-        g6 = new Square("g6", 6, 2, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        g7 = new Square("g7", 7, 2, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        g8 = new Square("g8", 8, 2, new Knight(8, 2, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
+        g1 = new Square("g1", 1, 2, new Knight(1, 2, true), g2, null, f1, h1, f2, h2, null, null, Color.decode("#1fafae"));
+        g2 = new Square("g2", 2, 2, new Pawn(2, 2, true), g3, g1, f2, h2, f3, h3, f1, h1, Color.decode("#fffefc"));
+        g3 = new Square("g3", 3, 2, null, g4, g2, f3, h3, f4, h4, f2, h2, Color.decode("#1fafae"));
+        g4 = new Square("g4", 4, 2, null, g5, g3, f4, h4, f5, h5, f3, h3, Color.decode("#fffefc"));
+        g5 = new Square("g5", 5, 2, null, g6, g4, f5, h5, f6, h6, f4, h4, Color.decode("#f1fafae"));
+        g6 = new Square("g6", 6, 2, null, g7, g5, f6, h6, f7, h7, f5, h5, Color.decode("#fffefc"));
+        g7 = new Square("g7", 7, 2, new Pawn(7, 1, false), g8, g6, f7, h7, f8, h8, f6, h6, Color.decode("#1fafae"));
+        g8 = new Square("g8", 8, 2, new Knight(8, 2, false), null, g7, f8, h8, null, null, f7, h7, Color.decode("#fffefc"));
         
-        h1 = new Square("h1", 1, 1, new Rook(1, 1, true), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        h2 = new Square("h2", 2, 1, new Pawn(2, 1, true), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        h3 = new Square("h3", 3, 1, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        h4 = new Square("h4", 4, 1, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        h5 = new Square("h5", 5, 1, null, null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        h6 = new Square("h6", 6, 1, null, null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
-        h7 = new Square("h7", 7, 1, new Pawn(7, 1, false), null, null, null, null, null, null, null, null, Color.decode("#fffefc"));
-        h8 = new Square("h8", 8, 1, new Rook(8, 1, false), null, null, null, null, null, null, null, null, Color.decode("#1fafae"));
+        h1 = new Square("h1", 1, 1, new Rook(1, 1, true), h2, null, g1, null, g2, null, null, null, Color.decode("#fffefc"));
+        h2 = new Square("h2", 2, 1, new Pawn(2, 1, true), h3, h1, g2, null, g3, null, g1, null, Color.decode("#1fafae"));
+        h3 = new Square("h3", 3, 1, null, h4, h2, g3, null, g4, null, g2, null, Color.decode("#fffefc"));
+        h4 = new Square("h4", 4, 1, null, h5, h3, g4, null, g5, null, g3, null, Color.decode("#1fafae"));
+        h5 = new Square("h5", 5, 1, null, h6, h4, g5, null, g6, null, g4, null, Color.decode("#fffefc"));
+        h6 = new Square("h6", 6, 1, null, h7, h5, g6, null, g7, null, g5, null, Color.decode("#1fafae"));
+        h7 = new Square("h7", 7, 1, new Pawn(7, 1, false), h8, h6, g7, null, g8, null, g6, null, Color.decode("#fffefc"));
+        h8 = new Square("h8", 8, 1, new Rook(8, 1, false), null, h7, g8, null, null, null, g7, null, Color.decode("#1fafae"));
+        
+        squares.add(a8);
+        squares.add(b8);
+        squares.add(c8);
+        squares.add(d8);
+        squares.add(e8);
+        squares.add(f8);
+        squares.add(g8);
+        squares.add(h8);
+        
+        squares.add(a7);
+        squares.add(b7);
+        squares.add(c7);
+        squares.add(d7);
+        squares.add(e7);
+        squares.add(f7);
+        squares.add(g7);
+        squares.add(h7);
+        
+        squares.add(a6);
+        squares.add(b6);
+        squares.add(c6);
+        squares.add(d6);
+        squares.add(e6);
+        squares.add(f6);
+        squares.add(g6);
+        squares.add(h6);
+        
+        squares.add(a5);
+        squares.add(b5);
+        squares.add(c5);
+        squares.add(d5);
+        squares.add(e5);
+        squares.add(f5);
+        squares.add(g5);
+        squares.add(h5);
+        
+        squares.add(a4);
+        squares.add(b4);
+        squares.add(c4);
+        squares.add(d4);
+        squares.add(e4);
+        squares.add(f4);
+        squares.add(g4);
+        squares.add(h4);
+        
+        squares.add(a3);
+        squares.add(b3);
+        squares.add(c3);
+        squares.add(d3);
+        squares.add(e3);
+        squares.add(f3);
+        squares.add(g3);
+        squares.add(h3);
+        
+        squares.add(a2);
+        squares.add(b2);
+        squares.add(c2);
+        squares.add(d2);
+        squares.add(e2);
+        squares.add(f2);
+        squares.add(g2);
+        squares.add(h2);
+        
+        squares.add(a1);
+        squares.add(b1);
+        squares.add(c1);
+        squares.add(d1);
+        squares.add(e1);
+        squares.add(f1);
+        squares.add(g1);
+        squares.add(h1);
+        
+        boardGraphics = new BoardGraphics(squares);
     }
     
-    public void movePiece(String move) {
-        if(checkMoveLegality(move)) {
-            
-            isWhiteTurn = !isWhiteTurn;
+    public void movePiece(String move) throws NoSuchFieldException {
+        String[] parts = move.split("-");
+        String originSquare = parts[0].toLowerCase();
+        String destinationSquare = parts[1].toLowerCase();
+        for(Square square : squares) {
+            if(square.squareName.equals(originSquare)) {
+                if(checkPieceExists(square)){
+                    switch(getPiece(square).name) {
+                        case "Pawn":
+                            
+                            break;
+                        case "Rook":
+                            
+                            break;
+                        case "Knight":
+                            
+                            break;
+                        case "Bishop":
+                            
+                            break;
+                        case "Queen":
+                            
+                            break;
+                        case "King":
+                            
+                            break;
+                    }
+                }
+                break;
+            }
+
+        }
+        isWhiteTurn = !isWhiteTurn;
+    }
+    
+    public Piece getPiece(Square square) {
+        Piece piece = square.occupyingPiece;
+        return piece;
+    }
+    
+    private boolean checkPieceExists(Square square) {
+        if((getPiece(square) != null) && (getPiece(square).isWhite == isWhiteTurn)) {
+            return true;
+        }
+        else if(getPiece(square) == null) {
+            System.out.println("Selected piece does not exist in square");
+            return false;
+        }
+        else if(getPiece(square).isWhite != isWhiteTurn) {
+            System.out.println("Selected piece belongs to other player");
+            return false;
         }
         else {
-            
+            throw new IllegalArgumentException();
         }
-    }
-    
-    /*public Piece getPiece() {
-        
-    }*/
-    
-    private boolean checkMoveLegality(String move) {
-        //Check if piece exist in square
-        //Check if piece is right color
-        return true;
     }
     
     public void displayBoard() throws IOException {
-        boardFrame.setLayout(boardGrid);
+        squares.add(a8);
+        squares.add(b8);
+        squares.add(c8);
+        squares.add(d8);
+        squares.add(e8);
+        squares.add(f8);
+        squares.add(g8);
+        squares.add(h8);
         
-        boardFrame.add(a8);
-        boardFrame.add(b8);
-        boardFrame.add(c8);
-        boardFrame.add(d8);
-        boardFrame.add(e8);
-        boardFrame.add(f8);
-        boardFrame.add(g8);
-        boardFrame.add(h8);
+        squares.add(a7);
+        squares.add(b7);
+        squares.add(c7);
+        squares.add(d7);
+        squares.add(e7);
+        squares.add(f7);
+        squares.add(g7);
+        squares.add(h7);
         
-        boardFrame.add(a7);
-        boardFrame.add(b7);
-        boardFrame.add(c7);
-        boardFrame.add(d7);
-        boardFrame.add(e7);
-        boardFrame.add(f7);
-        boardFrame.add(g7);
-        boardFrame.add(h7);
+        squares.add(a6);
+        squares.add(b6);
+        squares.add(c6);
+        squares.add(d6);
+        squares.add(e6);
+        squares.add(f6);
+        squares.add(g6);
+        squares.add(h6);
         
-        boardFrame.add(a6);
-        boardFrame.add(b6);
-        boardFrame.add(c6);
-        boardFrame.add(d6);
-        boardFrame.add(e6);
-        boardFrame.add(f6);
-        boardFrame.add(g6);
-        boardFrame.add(h6);
+        squares.add(a5);
+        squares.add(b5);
+        squares.add(c5);
+        squares.add(d5);
+        squares.add(e5);
+        squares.add(f5);
+        squares.add(g5);
+        squares.add(h5);
         
-        boardFrame.add(a5);
-        boardFrame.add(b5);
-        boardFrame.add(c5);
-        boardFrame.add(d5);
-        boardFrame.add(e5);
-        boardFrame.add(f5);
-        boardFrame.add(g5);
-        boardFrame.add(h5);
+        squares.add(a4);
+        squares.add(b4);
+        squares.add(c4);
+        squares.add(d4);
+        squares.add(e4);
+        squares.add(f4);
+        squares.add(g4);
+        squares.add(h4);
         
-        boardFrame.add(a4);
-        boardFrame.add(b4);
-        boardFrame.add(c4);
-        boardFrame.add(d4);
-        boardFrame.add(e4);
-        boardFrame.add(f4);
-        boardFrame.add(g4);
-        boardFrame.add(h4);
+        squares.add(a3);
+        squares.add(b3);
+        squares.add(c3);
+        squares.add(d3);
+        squares.add(e3);
+        squares.add(f3);
+        squares.add(g3);
+        squares.add(h3);
         
-        boardFrame.add(a3);
-        boardFrame.add(b3);
-        boardFrame.add(c3);
-        boardFrame.add(d3);
-        boardFrame.add(e3);
-        boardFrame.add(f3);
-        boardFrame.add(g3);
-        boardFrame.add(h3);
+        squares.add(a2);
+        squares.add(b2);
+        squares.add(c2);
+        squares.add(d2);
+        squares.add(e2);
+        squares.add(f2);
+        squares.add(g2);
+        squares.add(h2);
         
-        boardFrame.add(a2);
-        boardFrame.add(b2);
-        boardFrame.add(c2);
-        boardFrame.add(d2);
-        boardFrame.add(e2);
-        boardFrame.add(f2);
-        boardFrame.add(g2);
-        boardFrame.add(h2);
+        squares.add(a1);
+        squares.add(b1);
+        squares.add(c1);
+        squares.add(d1);
+        squares.add(e1);
+        squares.add(f1);
+        squares.add(g1);
+        squares.add(h1);
         
-        boardFrame.add(a1);
-        boardFrame.add(b1);
-        boardFrame.add(c1);
-        boardFrame.add(d1);
-        boardFrame.add(e1);
-        boardFrame.add(f1);
-        boardFrame.add(g1);
-        boardFrame.add(h1);
-        
-        boardFrame.setVisible(true);
-
     }
-    
 }

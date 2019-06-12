@@ -3,7 +3,7 @@ package chess;
 public class Pawn extends Piece {
      
     public Pawn(int x, int y, boolean isWhite) {
-        super(x, y, isWhite);
+        super(x, y, isWhite, "Pawn");
         if(isWhite) {
             iconSrc = ("/images/WPawn.png");
         }

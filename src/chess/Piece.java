@@ -11,4 +11,7 @@ public class Piece {
         this.posY = y;
         this.isWhite = isWhite;
     }
+    public void move() {
+        System.out.println("yeet");
+    }
 }

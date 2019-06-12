@@ -3,12 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/adria_000/Documents/NetBeansProjects/Chess/src/chess/Square.java</file>
-            <file>file:/C:/Users/adria_000/Documents/NetBeansProjects/Chess/src/chess/Board.java</file>
-            <file>file:/C:/Users/adria_000/Documents/NetBeansProjects/Chess/src/chess/Piece.java</file>
-            <file>file:/C:/Users/adria_000/Documents/NetBeansProjects/Chess/src/chess/GameController.java</file>
-            <file>file:/C:/Users/adria_000/Documents/NetBeansProjects/Chess/src/chess/Chess.java</file>
-            <file>file:/C:/Users/adria_000/Documents/NetBeansProjects/Chess/src/chess/Rook.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Piece.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Rook.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Board.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/King.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Knight.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Pawn.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Chess.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/GameController.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Bishop.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Square.java</file>
+            <file>file:/Users/adriannesvik/Desktop/Git%20repos/Chess/src/chess/Queen.java</file>
         </group>
     </open-files>
 </project-private>

@@ -15,9 +15,9 @@ public class GameController {
         moveList = new ArrayList();
     }
     
-    public void startGame() throws IOException {
+    public void startGame() throws IOException, NoSuchFieldException {
         chessBoard.displayBoard();
-        System.out.println("This program uses algebraic chess notation as input to determine moves.");
+        System.out.println("This program uses coordinate chess notation as input to determine moves. e.g. E2-E4");
         System.out.println("The response from input your will vary depending on the legality of your move.");
         System.out.println("---------------------------------------------------------------------");
         System.out.println("White player's turn");
@@ -25,7 +25,7 @@ public class GameController {
         playerTurn(nextMove);
     }
     
-    private void playerTurn(String move) {
+    private void playerTurn(String move) throws NoSuchFieldException {
         chessBoard.movePiece(move);
         moveList.add(move);
         printRoundInfo();

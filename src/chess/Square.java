@@ -49,4 +49,8 @@ public class Square extends JPanel {
         icon = new JLabel(new ImageIcon(scaledImg));
         super.add(icon);
     }
+    
+    public Piece getPiece() {
+        return occupyingPiece;
+    }
 }
