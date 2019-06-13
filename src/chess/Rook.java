@@ -1,7 +1,7 @@
 package chess;
 
 public class Rook extends Piece {
-     
+
     public Rook(int x, int y, boolean isWhite) {
         super(x, y, isWhite, "Rook");
         if(isWhite) {
@@ -14,6 +14,6 @@ public class Rook extends Piece {
     }
     @Override
     public void move(){
-        System.out.println("DAB");
+        
     }
 }

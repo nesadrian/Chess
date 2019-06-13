@@ -1,7 +1,6 @@
 package chess;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.io.IOException;
 import javax.swing.JFrame;
@@ -244,6 +243,28 @@ public class Board {
     }
     
     public void movePiece(String move) throws IOException {
+        Square[] squares = getSquares(move);
+        Square originSquare = squares[0];
+        Square destinationSquare = squares[1];
+        if(checkPieceExists(originSquare) && getPiece(originSquare).checkPieceIsMoversColor(isWhiteTurn)){
+            if(playerIsCastling(move)) {
+                switch (move) {
+                    case "E1-G1":
+                        
+                        break;
+                }
+            }
+            else {
+                isWhiteTurn = !isWhiteTurn;
+                destinationSquare.replacePiece(originSquare.occupyingPiece);
+                originSquare.removePiece();
+                boardFrame.repaint();
+                boardFrame.revalidate();
+            }
+        }
+    }
+    
+    public Square[] getSquares(String move) {
         String[] parts = move.split("-");
         String originSquareName = parts[0].toLowerCase();
         String destinationSquareName = parts[1].toLowerCase();
@@ -260,13 +281,7 @@ public class Board {
                 }
             }
         }
-        destinationSquare.replacePiece(originSquare.occupyingPiece);
-        
-        if(checkPieceExists(originSquare)/* && checkPieceIsMoversColor(originSquare)*/){
-            originSquare.removePiece();
-        }
-        isWhiteTurn = !isWhiteTurn;
-        boardFrame.revalidate();
+        return new Square[]{originSquare, destinationSquare};
     }
     
     public Piece getPiece(Square square) {
@@ -287,16 +302,12 @@ public class Board {
         }
     }
     
-    private boolean checkPieceIsMoversColor(Square square) {
-        if(getPiece(square).isWhite == isWhiteTurn) {
+    public boolean playerIsCastling(String move) {
+        if(move.equals("E1-G1") || move.equals("E1-C1") || move.equals("E8-C8") || move.equals("E8-G8")) {
             return true;
         }
-         else if(getPiece(square).isWhite != isWhiteTurn) {
-            System.out.println("Selected piece belongs to other player");
-            return false;
-        }
         else {
-            throw new IllegalArgumentException();
+            return false;
         }
     }
 }
