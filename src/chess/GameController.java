@@ -16,7 +16,6 @@ public class GameController {
     }
     
     public void startGame() throws IOException, NoSuchFieldException {
-        chessBoard.displayBoard();
         System.out.println("This program uses coordinate chess notation as input to determine moves. e.g. E2-E4");
         System.out.println("The response from input your will vary depending on the legality of your move.");
         System.out.println("---------------------------------------------------------------------");
@@ -25,7 +24,7 @@ public class GameController {
         playerTurn(nextMove);
     }
     
-    private void playerTurn(String move) throws NoSuchFieldException {
+    private void playerTurn(String move) throws IOException {
         chessBoard.movePiece(move);
         moveList.add(move);
         printRoundInfo();

@@ -38,13 +38,13 @@ public class Square extends JPanel {
     }
     
     public void replacePiece(Piece replacementPiece) throws IOException {
+        System.out.println("epi c");
         occupyingPiece = replacementPiece;
-        replaceIcon(replacementPiece.iconSrc);
-    }
-    
-    private void replaceIcon(String imgSrc) throws IOException {
-        super.remove(icon);
-        BufferedImage img = ImageIO.read(this.getClass().getResource(imgSrc));
+        if(icon != null) {
+            super.remove(icon);
+            System.out.println("epi cccc");
+        }
+        BufferedImage img = ImageIO.read(this.getClass().getResource(occupyingPiece.iconSrc));
         Image scaledImg = img.getScaledInstance(80, 80, img.SCALE_SMOOTH);
         icon = new JLabel(new ImageIcon(scaledImg));
         super.add(icon);

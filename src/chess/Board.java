@@ -1,12 +1,18 @@
 package chess;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.io.IOException;
-import java.util.LinkedList;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Board {
     boolean isWhiteTurn;
-    private LinkedList<Square> squares;
-    BoardGraphics boardGraphics;
+    private JFrame boardFrame;
+    private JPanel jpanelsHolder;
+    private final GridLayout boardGrid;
+    
     Square a1;
     Square a2;
     Square a3;
@@ -81,7 +87,13 @@ public class Board {
     
     public Board() throws IOException {
         isWhiteTurn = true;
-        squares = new LinkedList<Square>();
+        jpanelsHolder = new JPanel();
+        boardFrame = new JFrame();
+        boardGrid = new GridLayout(8, 8);
+        jpanelsHolder.setSize(800, 800);
+        jpanelsHolder.setLayout(boardGrid);
+        boardFrame.add(jpanelsHolder);
+        
         
         //Name, x, y, piece, Up, Down, Left, Right, DUL, DUR, DDL, DDR
         a1 = new Square("a1", 1, 8, new Rook(1, 8, true), a2, null, null, b1, null, b2, null, null, Color.decode("#1fafae"));
@@ -156,114 +168,105 @@ public class Board {
         h7 = new Square("h7", 7, 1, new Pawn(7, 1, false), h8, h6, g7, null, g8, null, g6, null, Color.decode("#fffefc"));
         h8 = new Square("h8", 8, 1, new Rook(8, 1, false), null, h7, g8, null, null, null, g7, null, Color.decode("#1fafae"));
         
-        squares.add(a8);
-        squares.add(b8);
-        squares.add(c8);
-        squares.add(d8);
-        squares.add(e8);
-        squares.add(f8);
-        squares.add(g8);
-        squares.add(h8);
+        jpanelsHolder.add(a8);
+        jpanelsHolder.add(b8);
+        jpanelsHolder.add(c8);
+        jpanelsHolder.add(d8);
+        jpanelsHolder.add(e8);
+        jpanelsHolder.add(f8);
+        jpanelsHolder.add(g8);
+        jpanelsHolder.add(h8);
         
-        squares.add(a7);
-        squares.add(b7);
-        squares.add(c7);
-        squares.add(d7);
-        squares.add(e7);
-        squares.add(f7);
-        squares.add(g7);
-        squares.add(h7);
+        jpanelsHolder.add(a7);
+        jpanelsHolder.add(b7);
+        jpanelsHolder.add(c7);
+        jpanelsHolder.add(d7);
+        jpanelsHolder.add(e7);
+        jpanelsHolder.add(f7);
+        jpanelsHolder.add(g7);
+        jpanelsHolder.add(h7);
         
-        squares.add(a6);
-        squares.add(b6);
-        squares.add(c6);
-        squares.add(d6);
-        squares.add(e6);
-        squares.add(f6);
-        squares.add(g6);
-        squares.add(h6);
+        jpanelsHolder.add(a6);
+        jpanelsHolder.add(b6);
+        jpanelsHolder.add(c6);
+        jpanelsHolder.add(d6);
+        jpanelsHolder.add(e6);
+        jpanelsHolder.add(f6);
+        jpanelsHolder.add(g6);
+        jpanelsHolder.add(h6);
         
-        squares.add(a5);
-        squares.add(b5);
-        squares.add(c5);
-        squares.add(d5);
-        squares.add(e5);
-        squares.add(f5);
-        squares.add(g5);
-        squares.add(h5);
+        jpanelsHolder.add(a5);
+        jpanelsHolder.add(b5);
+        jpanelsHolder.add(c5);
+        jpanelsHolder.add(d5);
+        jpanelsHolder.add(e5);
+        jpanelsHolder.add(f5);
+        jpanelsHolder.add(g5);
+        jpanelsHolder.add(h5);
         
-        squares.add(a4);
-        squares.add(b4);
-        squares.add(c4);
-        squares.add(d4);
-        squares.add(e4);
-        squares.add(f4);
-        squares.add(g4);
-        squares.add(h4);
+        jpanelsHolder.add(a4);
+        jpanelsHolder.add(b4);
+        jpanelsHolder.add(c4);
+        jpanelsHolder.add(d4);
+        jpanelsHolder.add(e4);
+        jpanelsHolder.add(f4);
+        jpanelsHolder.add(g4);
+        jpanelsHolder.add(h4);
         
-        squares.add(a3);
-        squares.add(b3);
-        squares.add(c3);
-        squares.add(d3);
-        squares.add(e3);
-        squares.add(f3);
-        squares.add(g3);
-        squares.add(h3);
+        jpanelsHolder.add(a3);
+        jpanelsHolder.add(b3);
+        jpanelsHolder.add(c3);
+        jpanelsHolder.add(d3);
+        jpanelsHolder.add(e3);
+        jpanelsHolder.add(f3);
+        jpanelsHolder.add(g3);
+        jpanelsHolder.add(h3);
         
-        squares.add(a2);
-        squares.add(b2);
-        squares.add(c2);
-        squares.add(d2);
-        squares.add(e2);
-        squares.add(f2);
-        squares.add(g2);
-        squares.add(h2);
+        jpanelsHolder.add(a2);
+        jpanelsHolder.add(b2);
+        jpanelsHolder.add(c2);
+        jpanelsHolder.add(d2);
+        jpanelsHolder.add(e2);
+        jpanelsHolder.add(f2);
+        jpanelsHolder.add(g2);
+        jpanelsHolder.add(h2);
         
-        squares.add(a1);
-        squares.add(b1);
-        squares.add(c1);
-        squares.add(d1);
-        squares.add(e1);
-        squares.add(f1);
-        squares.add(g1);
-        squares.add(h1);
+        jpanelsHolder.add(a1);
+        jpanelsHolder.add(b1);
+        jpanelsHolder.add(c1);
+        jpanelsHolder.add(d1);
+        jpanelsHolder.add(e1);
+        jpanelsHolder.add(f1);
+        jpanelsHolder.add(g1);
+        jpanelsHolder.add(h1);
         
-        boardGraphics = new BoardGraphics(squares);
+        boardFrame.setVisible(true);
     }
     
-    public void movePiece(String move) throws NoSuchFieldException {
+    public void movePiece(String move) throws IOException {
         String[] parts = move.split("-");
-        String originSquare = parts[0].toLowerCase();
-        String destinationSquare = parts[1].toLowerCase();
-        for(Square square : squares) {
-            if(square.squareName.equals(originSquare)) {
-                if(checkPieceExists(square)){
-                    switch(getPiece(square).name) {
-                        case "Pawn":
-                            
-                            break;
-                        case "Rook":
-                            
-                            break;
-                        case "Knight":
-                            
-                            break;
-                        case "Bishop":
-                            
-                            break;
-                        case "Queen":
-                            
-                            break;
-                        case "King":
-                            
-                            break;
-                    }
+        String originSquareName = parts[0].toLowerCase();
+        String destinationSquareName = parts[1].toLowerCase();
+        Square originSquare = null;
+        Square destinationSquare = null;
+        for(Component comp : jpanelsHolder.getComponents()) {
+            if(comp instanceof Square) {
+                Square square = (Square) comp;
+                if(square.squareName.equals(originSquareName)) {
+                    originSquare = square;
                 }
-                break;
+                else if(square.squareName.equals(destinationSquareName)) {
+                    destinationSquare = square;
+                }
             }
-
+        }
+        destinationSquare.replacePiece(originSquare.occupyingPiece);
+        
+        if(checkPieceExists(originSquare)/* && checkPieceIsMoversColor(originSquare)*/){
+            originSquare.removePiece();
         }
         isWhiteTurn = !isWhiteTurn;
+        boardFrame.revalidate();
     }
     
     public Piece getPiece(Square square) {
@@ -272,15 +275,11 @@ public class Board {
     }
     
     private boolean checkPieceExists(Square square) {
-        if((getPiece(square) != null) && (getPiece(square).isWhite == isWhiteTurn)) {
+        if(getPiece(square) != null) {
             return true;
         }
         else if(getPiece(square) == null) {
             System.out.println("Selected piece does not exist in square");
-            return false;
-        }
-        else if(getPiece(square).isWhite != isWhiteTurn) {
-            System.out.println("Selected piece belongs to other player");
             return false;
         }
         else {
@@ -288,78 +287,16 @@ public class Board {
         }
     }
     
-    public void displayBoard() throws IOException {
-        squares.add(a8);
-        squares.add(b8);
-        squares.add(c8);
-        squares.add(d8);
-        squares.add(e8);
-        squares.add(f8);
-        squares.add(g8);
-        squares.add(h8);
-        
-        squares.add(a7);
-        squares.add(b7);
-        squares.add(c7);
-        squares.add(d7);
-        squares.add(e7);
-        squares.add(f7);
-        squares.add(g7);
-        squares.add(h7);
-        
-        squares.add(a6);
-        squares.add(b6);
-        squares.add(c6);
-        squares.add(d6);
-        squares.add(e6);
-        squares.add(f6);
-        squares.add(g6);
-        squares.add(h6);
-        
-        squares.add(a5);
-        squares.add(b5);
-        squares.add(c5);
-        squares.add(d5);
-        squares.add(e5);
-        squares.add(f5);
-        squares.add(g5);
-        squares.add(h5);
-        
-        squares.add(a4);
-        squares.add(b4);
-        squares.add(c4);
-        squares.add(d4);
-        squares.add(e4);
-        squares.add(f4);
-        squares.add(g4);
-        squares.add(h4);
-        
-        squares.add(a3);
-        squares.add(b3);
-        squares.add(c3);
-        squares.add(d3);
-        squares.add(e3);
-        squares.add(f3);
-        squares.add(g3);
-        squares.add(h3);
-        
-        squares.add(a2);
-        squares.add(b2);
-        squares.add(c2);
-        squares.add(d2);
-        squares.add(e2);
-        squares.add(f2);
-        squares.add(g2);
-        squares.add(h2);
-        
-        squares.add(a1);
-        squares.add(b1);
-        squares.add(c1);
-        squares.add(d1);
-        squares.add(e1);
-        squares.add(f1);
-        squares.add(g1);
-        squares.add(h1);
-        
+    private boolean checkPieceIsMoversColor(Square square) {
+        if(getPiece(square).isWhite == isWhiteTurn) {
+            return true;
+        }
+         else if(getPiece(square).isWhite != isWhiteTurn) {
+            System.out.println("Selected piece belongs to other player");
+            return false;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 }
