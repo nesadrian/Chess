@@ -2,12 +2,12 @@ package chess;
 
 public class Rook extends Piece {
 
-    public Rook(int x, int y, boolean isWhite) {
-        super(x, y, isWhite, "Rook");
-        if(isWhite) {
+    public Rook(int x, int y, boolean pieceIsWhite) {
+        super(x, y, pieceIsWhite, "Rook");
+        if(pieceIsWhite) {
             iconSrc = ("/images/WRook.png");
         }
-        else if(!isWhite) {
+        else if(!pieceIsWhite) {
             iconSrc = ("/images/BRook.png");
         }
         

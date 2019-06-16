@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -243,15 +244,73 @@ public class Board {
     }
     
     public void movePiece(String move) throws IOException {
-        Square[] squares = getSquares(move);
-        Square originSquare = squares[0];
-        Square destinationSquare = squares[1];
-        if(checkPieceExists(originSquare) && getPiece(originSquare).checkPieceIsMoversColor(isWhiteTurn)){
+        ArrayList<Square> squares = getSquaresFromNames(movesStringToArray(move));
+        Square originSquare = squares.get(0);
+        Square destinationSquare = squares.get(1);
+        if(checkPieceExists(originSquare) && originSquare.getPiece().checkPieceIsMoversColor(isWhiteTurn)){
             if(playerIsCastling(move)) {
+                //TODO: Develop a better castling implementation
                 switch (move) {
                     case "E1-G1":
-                        
-                        break;
+                        if(checkPieceExists(f1) || checkPieceExists(g1)) {
+                            System.out.println("Error: Square/s between king and rook is occupied");
+                        }
+                        else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
+                            System.out.println("Error: King or rook has moved");
+                        }
+                        else {
+                            g1.replacePiece(e1.getPiece());
+                            e1.removePiece();
+                            f1.replacePiece(h1.getPiece());
+                            h1.removePiece();
+                            isWhiteTurn = !isWhiteTurn;
+                        }
+                    break;
+                    case "E1-C1":
+                        if(checkPieceExists(d1) || checkPieceExists(c1) || checkPieceExists(b1)) {
+                            System.out.println("Error: Square/s between king and rook is occupied");
+                        }
+                        else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
+                            System.out.println("Error: King or rook has moved");
+                        }
+                        else {
+                            c1.replacePiece(e1.getPiece());
+                            e1.removePiece();
+                            d1.replacePiece(a1.getPiece());
+                            a1.removePiece();
+                            isWhiteTurn = !isWhiteTurn;
+                        }
+                    break;
+                    case "E8-C8":
+                        if(checkPieceExists(d8) || checkPieceExists(c8) || checkPieceExists(b8)) {
+                            System.out.println("Error: Square/s between king and rook is occupied");
+                        }
+                        else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
+                            System.out.println("Error: King or rook has moved");
+                        }
+                        else {
+                            c8.replacePiece(e8.getPiece());
+                            e8.removePiece();
+                            d8.replacePiece(a8.getPiece());
+                            a8.removePiece();
+                            isWhiteTurn = !isWhiteTurn;
+                        }
+                    break;
+                    case "E8-G8":
+                        if(checkPieceExists(f8) || checkPieceExists(g8)) {
+                                System.out.println("Error: Square/s between king and rook is occupied");
+                        }
+                        else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
+                                System.out.println("Error: King or rook has moved");
+                        }
+                        else {
+                            g8.replacePiece(e8.getPiece());
+                            e8.removePiece();
+                            f8.replacePiece(h8.getPiece());
+                            h8.removePiece();
+                            isWhiteTurn = !isWhiteTurn;
+                        }
+                    break;
                 }
             }
             else {
@@ -264,36 +323,50 @@ public class Board {
         }
     }
     
-    public Square[] getSquares(String move) {
+    private String[] movesStringToArray(String move) {
         String[] parts = move.split("-");
-        String originSquareName = parts[0].toLowerCase();
-        String destinationSquareName = parts[1].toLowerCase();
-        Square originSquare = null;
-        Square destinationSquare = null;
+        String originalSquare = parts[0].toLowerCase();
+        String destinationSquare = parts[1].toLowerCase();
+        String[] moves = {originalSquare, destinationSquare};
+        return moves;
+    }
+    
+    private ArrayList getSquaresFromNames(String[] squareNames) {
+        ArrayList<Square> returnSquares = new ArrayList();
+        for(String name : squareNames) {
+            name = name.toLowerCase();
+        }
         for(Component comp : jpanelsHolder.getComponents()) {
             if(comp instanceof Square) {
                 Square square = (Square) comp;
-                if(square.squareName.equals(originSquareName)) {
-                    originSquare = square;
-                }
-                else if(square.squareName.equals(destinationSquareName)) {
-                    destinationSquare = square;
+                for(String squareName : squareNames) {
+                    if(square.squareName.equals(squareName)) {
+                        returnSquares.add(square);
+                    }
                 }
             }
         }
-        return new Square[]{originSquare, destinationSquare};
+        return returnSquares;
     }
     
-    public Piece getPiece(Square square) {
-        Piece piece = square.occupyingPiece;
-        return piece;
+    //Use (and possibly modify) this method when rewriting castling
+    private Square getSquareFromCoordinates(int posX, int posY) {
+        for(Component comp : jpanelsHolder.getComponents()) {
+            if(comp instanceof Square) {
+                Square square = (Square) comp;
+                if(square.posX == posX && square.posY == posY) {
+                    return square;
+                }
+            }
+        }
+        return null;
     }
     
     private boolean checkPieceExists(Square square) {
-        if(getPiece(square) != null) {
+        if(square.getPiece() != null) {
             return true;
         }
-        else if(getPiece(square) == null) {
+        else if(square.getPiece() == null) {
             System.out.println("Selected piece does not exist in square");
             return false;
         }
@@ -302,7 +375,7 @@ public class Board {
         }
     }
     
-    public boolean playerIsCastling(String move) {
+    private boolean playerIsCastling(String move) {
         if(move.equals("E1-G1") || move.equals("E1-C1") || move.equals("E8-C8") || move.equals("E8-G8")) {
             return true;
         }
