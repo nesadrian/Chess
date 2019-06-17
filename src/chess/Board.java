@@ -243,15 +243,15 @@ public class Board {
     }
     
     public void movePiece(String move) throws IOException {
-        Square[] squares = getSquaresFromNames(moveStringToArray(move));
+        Square[] squares = getSquaresFromNames(moveToArray(move));
         Square originSquare = squares[0];
         Square destinationSquare = squares[1];
-        if(checkPieceExists(originSquare) && originSquare.getPiece().checkPieceIsMoversColor(isWhiteTurn)){
-            if(playerIsCastling(move)) {
+        if(validPieces(originSquare,destinationSquare)) {
+            if(playerCastling(move)) {
                 //TODO: Develop a better castling implementation
                 switch (move) {
                     case "E1-G1":
-                        if(checkPieceExists(f1) || checkPieceExists(g1)) {
+                        if(pieceExists(f1) || pieceExists(g1)) {
                             System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -266,7 +266,7 @@ public class Board {
                         }
                     break;
                     case "E1-C1":
-                        if(checkPieceExists(d1) || checkPieceExists(c1) || checkPieceExists(b1)) {
+                        if(pieceExists(d1) || pieceExists(c1) || pieceExists(b1)) {
                             System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -281,7 +281,7 @@ public class Board {
                         }
                     break;
                     case "E8-C8":
-                        if(checkPieceExists(d8) || checkPieceExists(c8) || checkPieceExists(b8)) {
+                        if(pieceExists(d8) || pieceExists(c8) || pieceExists(b8)) {
                             System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -296,7 +296,7 @@ public class Board {
                         }
                     break;
                     case "E8-G8":
-                        if(checkPieceExists(f8) || checkPieceExists(g8)) {
+                        if(pieceExists(f8) || pieceExists(g8)) {
                                 System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -315,13 +315,26 @@ public class Board {
             else {
                 int xMovement = pieceMovement(originSquare);
                 int yMovement = pieceMovement(destinationSquare);
-                if(originSquare.occupyingPiece.checkMovementValidity(xMovement, yMovement));
-                destinationSquare.replacePiece(originSquare.occupyingPiece);
-                originSquare.removePiece();
-                isWhiteTurn = !isWhiteTurn;
+                if(originSquare.occupyingPiece.checkMovementPatternValidity(xMovement, yMovement)) {
+                    
+                    destinationSquare.replacePiece(originSquare.occupyingPiece);
+                    originSquare.removePiece();
+                    isWhiteTurn = !isWhiteTurn;
+                }
             }
             boardFrame.repaint();
             boardFrame.revalidate();
+        }
+    }
+    
+    private boolean validPieces(Square x, Square y) {
+        if(pieceExists(x) && x.getPiece().checkPieceIsMoversColor(isWhiteTurn)
+            && y.getPiece().checkPieceIsMoversColor(isWhiteTurn)) {
+            return true;
+        }
+        else {
+            System.out.println("Your piece does not exist or one of the selected pieces is wrong color");
+            return false;
         }
     }
     
@@ -331,7 +344,7 @@ public class Board {
         return xMovement;
     }
     
-    private String[] moveStringToArray(String move) {
+    private String[] moveToArray(String move) {
         String[] parts = move.split("-");
         String originalSquare = parts[0].toLowerCase();
         String destinationSquare = parts[1].toLowerCase();
@@ -370,7 +383,7 @@ public class Board {
         return null;
     }
     
-    private boolean checkPieceExists(Square square) {
+    private boolean pieceExists(Square square) {
         if(square.getPiece() != null) {
             return true;
         }
@@ -383,7 +396,7 @@ public class Board {
         }
     }
     
-    private boolean playerIsCastling(String move) {
+    private boolean playerCastling(String move) {
         return move.equals("E1-G1") || move.equals("E1-C1") || move.equals("E8-C8") || move.equals("E8-G8");
     }
 }

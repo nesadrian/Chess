@@ -12,7 +12,7 @@ public class Bishop extends Piece {
         }
     }
     @Override
-    public boolean checkMovementValidity(int xMovement, int yMovement){
+    public boolean checkMovementPatternValidity(int xMovement, int yMovement){
         if(xMovement - yMovement == 0) {
             return true;
         }

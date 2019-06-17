@@ -16,7 +16,7 @@ public class Piece {
         hasMoved = false;
     }
     
-    public boolean checkMovementValidity(int xMovement, int yMovement) {
+    public boolean checkMovementPatternValidity(int xMovement, int yMovement) {
         return false;
     }
     
@@ -25,7 +25,6 @@ public class Piece {
             return true;
         }
         else if(isWhiteTurn != pieceIsWhite) {
-            System.out.println("Selected piece belongs to other player");
             return false;
         }
         else {
