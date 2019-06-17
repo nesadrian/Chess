@@ -16,8 +16,8 @@ public class Piece {
         hasMoved = false;
     }
     
-    public void move() {
-        
+    public boolean checkMovementValidity(int xMovement, int yMovement) {
+        return false;
     }
     
     public boolean checkPieceIsMoversColor(boolean isWhiteTurn) {
@@ -31,6 +31,10 @@ public class Piece {
         else {
             throw new IllegalArgumentException();
         }
+    }
+    
+    public void illegalMovementMessage() {
+        System.out.println("Illegal " + name + " movement");
     }
     
     

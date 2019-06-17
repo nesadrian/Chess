@@ -9,11 +9,16 @@ public class Rook extends Piece {
         }
         else if(!pieceIsWhite) {
             iconSrc = ("/images/BRook.png");
-        }
-        
+        }    
     }
     @Override
-    public void move(){
-        
+    public boolean checkMovementValidity(int xMovement, int yMovement){
+        if(xMovement == 0 || yMovement == 0) {
+            return true;
+        }
+        else {
+            illegalMovementMessage();
+            return false;
+        }
     }
 }

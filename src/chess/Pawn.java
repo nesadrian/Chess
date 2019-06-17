@@ -10,6 +10,5 @@ public class Pawn extends Piece {
         else if(!pieceIsWhite) {
             iconSrc = ("/images/BPawn.png");
         }
-        
     }
 }
