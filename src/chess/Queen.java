@@ -3,7 +3,7 @@ package chess;
 public class Queen extends Piece {
      
     public Queen(int x, int y, boolean pieceIsWhite) {
-        super(x, y, pieceIsWhite, "Pawn");
+        super(x, y, pieceIsWhite, "Queen");
         if(pieceIsWhite) {
             iconSrc = ("/images/WQueen.png");
         }
@@ -13,8 +13,8 @@ public class Queen extends Piece {
     }
     @Override
     public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
-        int xMovement = getPieceMovement(xSquare);
-        int yMovement = getPieceMovement(ySquare);
+        int xMovement = getPieceMovementX(xSquare, ySquare);
+        int yMovement = getPieceMovementY(xSquare, ySquare);
         if(xMovement == 0 || yMovement == 0 || xMovement - yMovement == 0) {
             return true;
         }

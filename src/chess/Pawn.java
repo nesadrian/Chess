@@ -13,24 +13,10 @@ public class Pawn extends Piece {
     }
     @Override
     public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
-        int xMovement = getPieceMovement(xSquare);
+        int xMovement = getPieceMovementX(xSquare, ySquare);
         int yMovement = xSquare.posY - ySquare.posY; //Used to check directional movement
+        System.out.println(xMovement + " " + yMovement);
         if(pieceIsWhite) {
-            if(xMovement == 0 && yMovement == 1) {
-                return true;
-            }
-            else if(ySquare.getPiece() != null && xMovement == 1 && yMovement == 1) {
-                return true;
-            }
-            else if(super.hasMoved == false && xMovement == 0 && yMovement == 2) {
-                return true;
-            }
-            else {
-                illegalMovementMessage();
-                return false;
-            }
-        }
-        else if(!pieceIsWhite) {
             if(xMovement == 0 && yMovement == -1) {
                 return true;
             }
@@ -45,7 +31,22 @@ public class Pawn extends Piece {
                 return false;
             }
         }
-       else {
+        else if(!pieceIsWhite) {
+            if(xMovement == 0 && yMovement == 1) {
+                return true;
+            }
+            else if(ySquare.getPiece() != null && xMovement == 1 && yMovement == 1) {
+                return true;
+            }
+            else if(super.hasMoved == false && xMovement == 0 && yMovement == 2) {
+                return true;
+            }
+            else {
+                illegalMovementMessage();
+                return false;
+            }
+        }
+        else {
             illegalMovementMessage();
             return false;
         } 

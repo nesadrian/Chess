@@ -315,9 +315,9 @@ public class Board {
             else {
 
                 if(originSquare.occupyingPiece.checkMovementPatternValidity(originSquare, destinationSquare)) {
-                    
                     destinationSquare.replacePiece(originSquare.occupyingPiece);
                     originSquare.removePiece();
+                    destinationSquare.getPiece().hasMoved = true;
                     isWhiteTurn = !isWhiteTurn;
                 }
             }
@@ -333,7 +333,7 @@ public class Board {
                     return true;
                 }
                 else {
-                    System.out.println("Capturing piece is movers color");
+                    System.out.println("Captured piece is movers color");
                     return false;
                 }
             }
@@ -392,7 +392,6 @@ public class Board {
             return true;
         }
         else if(square.getPiece() == null) {
-            System.out.println("Selected piece does not exist in square");
             return false;
         }
         else {

@@ -28,9 +28,15 @@ public class Piece {
         System.out.println("Illegal " + name + " movement");
     }
     
-    public int getPieceMovement(Square x) {
-        int xMovement = x.posX - x.posY;
+    public int getPieceMovementX(Square x, Square y) {
+        int xMovement = x.posX - y.posX;
         xMovement = (xMovement < 0) ? -xMovement : xMovement;
         return xMovement;
+    }
+    
+    public int getPieceMovementY(Square x, Square y) {
+        int yMovement = x.posY - y.posY;
+        yMovement = (yMovement < 0) ? -yMovement : yMovement;
+        return yMovement;
     }
 }
