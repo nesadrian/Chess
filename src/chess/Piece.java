@@ -16,25 +16,21 @@ public class Piece {
         hasMoved = false;
     }
     
-    public boolean checkMovementPatternValidity(int xMovement, int yMovement) {
+    public boolean checkMovementPatternValidity(Square xMovement, Square yMovement) {
         return false;
     }
     
     public boolean checkPieceIsMoversColor(boolean isWhiteTurn) {
-        if(isWhiteTurn == pieceIsWhite) {
-            return true;
-        }
-        else if(isWhiteTurn != pieceIsWhite) {
-            return false;
-        }
-        else {
-            throw new IllegalArgumentException();
-        }
+        return isWhiteTurn == pieceIsWhite;
     }
     
     public void illegalMovementMessage() {
         System.out.println("Illegal " + name + " movement");
     }
     
-    
+    public int getPieceMovement(Square x) {
+        int xMovement = x.posX - x.posY;
+        xMovement = (xMovement < 0) ? -xMovement : xMovement;
+        return xMovement;
+    }
 }

@@ -313,9 +313,8 @@ public class Board {
                 }
             }
             else {
-                int xMovement = pieceMovement(originSquare);
-                int yMovement = pieceMovement(destinationSquare);
-                if(originSquare.occupyingPiece.checkMovementPatternValidity(xMovement, yMovement)) {
+
+                if(originSquare.occupyingPiece.checkMovementPatternValidity(originSquare, destinationSquare)) {
                     
                     destinationSquare.replacePiece(originSquare.occupyingPiece);
                     originSquare.removePiece();
@@ -328,20 +327,25 @@ public class Board {
     }
     
     private boolean validPieces(Square x, Square y) {
-        if(pieceExists(x) && x.getPiece().checkPieceIsMoversColor(isWhiteTurn)
-            && y.getPiece().checkPieceIsMoversColor(isWhiteTurn)) {
-            return true;
+        if(pieceExists(x) && x.getPiece().checkPieceIsMoversColor(isWhiteTurn)) {
+            if(pieceExists(y)) {
+                if(y.getPiece().checkPieceIsMoversColor(!isWhiteTurn)) {
+                    return true;
+                }
+                else {
+                    System.out.println("Capturing piece is movers color");
+                    return false;
+                }
+            }
+            else if(!pieceExists(y)) {
+                return true;
+            }
         }
         else {
-            System.out.println("Your piece does not exist or one of the selected pieces is wrong color");
+            System.out.println("Moving piece does not exist or is opponents color");
             return false;
         }
-    }
-    
-    private int pieceMovement(Square x) {
-        int xMovement = x.posX - x.posY;
-        xMovement = (xMovement < 0) ? -xMovement : xMovement;
-        return xMovement;
+        return false;
     }
     
     private String[] moveToArray(String move) {

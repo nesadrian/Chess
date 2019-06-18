@@ -12,7 +12,9 @@ public class Rook extends Piece {
         }    
     }
     @Override
-    public boolean checkMovementPatternValidity(int xMovement, int yMovement){
+    public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
+        int xMovement = getPieceMovement(xSquare);
+        int yMovement = getPieceMovement(ySquare);
         if(xMovement == 0 || yMovement == 0) {
             return true;
         }

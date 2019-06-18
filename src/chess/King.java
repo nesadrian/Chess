@@ -10,6 +10,17 @@ public class King extends Piece {
         else if(!pieceIsWhite) {
             iconSrc = ("/images/BKing.png");
         }
-        
+    }
+    @Override
+    public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
+        int xMovement = getPieceMovement(xSquare);
+        int yMovement = getPieceMovement(ySquare);
+        if(xMovement <= 1 && yMovement <= 1) {
+            return true;
+        }
+        else {
+            illegalMovementMessage();
+            return false;
+        }
     }
 }
