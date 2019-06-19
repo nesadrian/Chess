@@ -251,7 +251,7 @@ public class Board {
                 //TODO: Develop a better castling implementation
                 switch (move) {
                     case "E1-G1":
-                        if(pieceExists(f1) || pieceExists(g1)) {
+                        if(f1.pieceExists() || g1.pieceExists()) {
                             System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -266,7 +266,7 @@ public class Board {
                         }
                     break;
                     case "E1-C1":
-                        if(pieceExists(d1) || pieceExists(c1) || pieceExists(b1)) {
+                        if(d1.pieceExists() || c1.pieceExists() || b1.pieceExists()) {
                             System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -281,7 +281,7 @@ public class Board {
                         }
                     break;
                     case "E8-C8":
-                        if(pieceExists(d8) || pieceExists(c8) || pieceExists(b8)) {
+                        if(d8.pieceExists() || c8.pieceExists() || b8.pieceExists()) {
                             System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -296,7 +296,7 @@ public class Board {
                         }
                     break;
                     case "E8-G8":
-                        if(pieceExists(f8) || pieceExists(g8)) {
+                        if(f8.pieceExists() || g8.pieceExists()) {
                                 System.out.println("Error: Square/s between king and rook is occupied");
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
@@ -313,7 +313,6 @@ public class Board {
                 }
             }
             else {
-
                 if(xSquare.occupyingPiece.checkMovementPatternValidity(xSquare, ySquare)) {
                     if(noMovementCollision(xSquare, ySquare)) {
                         ySquare.replacePiece(xSquare.occupyingPiece);
@@ -348,8 +347,8 @@ public class Board {
     }
     
     private boolean validPieces(Square x, Square y) {
-        if(pieceExists(x) && x.getPiece().checkPieceIsMoversColor(isWhiteTurn)) {
-            if(pieceExists(y)) {
+        if(x.pieceExists() && x.getPiece().checkPieceIsMoversColor(isWhiteTurn)) {
+            if(y.pieceExists()) {
                 if(y.getPiece().checkPieceIsMoversColor(!isWhiteTurn)) {
                     return true;
                 }
@@ -358,7 +357,7 @@ public class Board {
                     return false;
                 }
             }
-            else if(!pieceExists(y)) {
+            else if(!y.pieceExists()) {
                 return true;
             }
         }
@@ -408,19 +407,8 @@ public class Board {
         return null;
     }
     
-    private boolean pieceExists(Square square) {
-        if(square.getPiece() != null) {
-            return true;
-        }
-        else if(square.getPiece() == null) {
-            return false;
-        }
-        else {
-            throw new IllegalArgumentException();
-        }
-    }
-    
     private boolean playerCastling(String move) {
         return move.equals("E1-G1") || move.equals("E1-C1") || move.equals("E8-C8") || move.equals("E8-G8");
     }
+
 }

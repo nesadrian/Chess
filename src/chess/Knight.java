@@ -15,7 +15,7 @@ public class Knight extends Piece {
         public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
         int xMovement = getPieceMovementX(xSquare, ySquare);
         int yMovement = getPieceMovementY(xSquare, ySquare);
-        if((xMovement == 3 && yMovement == 1) || (xMovement == 1 && yMovement == 3)) {
+        if((xMovement == 2 && yMovement == 1) || (xMovement == 1 && yMovement == 2)) {
             return true;
         }
         else {

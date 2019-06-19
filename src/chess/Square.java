@@ -18,8 +18,7 @@ public class Square extends JPanel {
     JLabel icon;
     JLabel squareNameLabel;
     
-    public Square(String name, int x, int y, Piece occupyingPiece, Square up, Square down, Square left, Square right,
-    Square diagUpLeft, Square diagUpRight, Square diagDownLeft, Square diagDownRight, Color squareColor) throws IOException {
+    public Square(String name, int x, int y, Piece occupyingPiece, Color squareColor) throws IOException {
         this.squareName = name;
         this.posX = x;
         this.posY = y;
@@ -49,6 +48,16 @@ public class Square extends JPanel {
         Image scaledImg = img.getScaledInstance(80, 80, img.SCALE_SMOOTH);
         icon = new JLabel(new ImageIcon(scaledImg));
         super.add(icon);
+    }
+    
+    public boolean pieceExists() {
+        if(occupyingPiece != null) {
+            return true;
+        }
+        else {
+            System.out.println("Piece in " + squareName + " does not exist");
+            return false;
+        }
     }
     
     public Piece getPiece() {
