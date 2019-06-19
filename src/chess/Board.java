@@ -244,9 +244,9 @@ public class Board {
     
     public void movePiece(String move) throws IOException {
         Square[] squares = getSquaresFromNames(moveToArray(move));
-        Square originSquare = squares[0];
-        Square destinationSquare = squares[1];
-        if(validPieces(originSquare,destinationSquare)) {
+        Square xSquare = squares[0];
+        Square ySquare = squares[1];
+        if(validPieces(xSquare,ySquare)) {
             if(playerCastling(move)) {
                 //TODO: Develop a better castling implementation
                 switch (move) {
@@ -314,16 +314,37 @@ public class Board {
             }
             else {
 
-                if(originSquare.occupyingPiece.checkMovementPatternValidity(originSquare, destinationSquare)) {
-                    destinationSquare.replacePiece(originSquare.occupyingPiece);
-                    originSquare.removePiece();
-                    destinationSquare.getPiece().hasMoved = true;
-                    isWhiteTurn = !isWhiteTurn;
+                if(xSquare.occupyingPiece.checkMovementPatternValidity(xSquare, ySquare)) {
+                    if(noMovementCollision(xSquare, ySquare)) {
+                        ySquare.replacePiece(xSquare.occupyingPiece);
+                        xSquare.removePiece();
+                        ySquare.getPiece().hasMoved = true;
+                        isWhiteTurn = !isWhiteTurn;
+                    }
                 }
             }
             boardFrame.repaint();
             boardFrame.revalidate();
         }
+    }
+    
+    public boolean noMovementCollision(Square xSquare, Square ySquare) {
+        if(xSquare.occupyingPiece.name.equals("Knight")) {
+            return true;
+        }
+        int xMovement = ySquare.posX - xSquare.posX;
+        int yMovement = ySquare.posY - xSquare.posY;
+        Square currentSquare = xSquare;
+        while(currentSquare != ySquare) {
+            int xPos = currentSquare.posX + xMovement;
+            int yPos = currentSquare.posY + yMovement;
+            currentSquare = getSquareFromCoordinates(xPos, yPos);
+            if(currentSquare.occupyingPiece != null && currentSquare != ySquare) {
+                System.out.println("Selected piece will collide with another piece");
+                return false;
+            }
+        }
+        return true;
     }
     
     private boolean validPieces(Square x, Square y) {
@@ -350,28 +371,28 @@ public class Board {
     
     private String[] moveToArray(String move) {
         String[] parts = move.split("-");
-        String originalSquare = parts[0].toLowerCase();
-        String destinationSquare = parts[1].toLowerCase();
-        String[] moves = {originalSquare, destinationSquare};
+        String xSquare = parts[0].toLowerCase();
+        String ySquare = parts[1].toLowerCase();
+        String[] moves = {xSquare, ySquare};
         return moves;
     }
     
     private Square[] getSquaresFromNames(String[] squareNames) {
-        Square originSquare = null;
-        Square destinationSquare = null;
+        Square xSquare = null;
+        Square ySquare = null;
         for(Component comp : jpanelsHolder.getComponents()) {
             if(comp instanceof Square) {
                 Square square = (Square) comp;
                 if(square.squareName.equals(squareNames[0])) {
-                    originSquare = square;
+                    xSquare = square;
                 }
                 else if(square.squareName.equals(squareNames[1])) {
-                    destinationSquare = square;
+                    ySquare = square;
                 }
                 
             }
         }
-        return new Square[]{originSquare, destinationSquare};
+        return new Square[]{xSquare, ySquare};
     }
     
     //Use (and possibly modify) this method when rewriting castling

@@ -17,13 +17,14 @@ public class Pawn extends Piece {
         int yMovement = xSquare.posY - ySquare.posY; //Used to check directional movement
         System.out.println(xMovement + " " + yMovement);
         if(pieceIsWhite) {
-            if(xMovement == 0 && yMovement == -1) {
+            if(xMovement == 0 && yMovement == -1 && ySquare.occupyingPiece == null) {
                 return true;
             }
             else if(ySquare.getPiece() != null && xMovement == 1 && yMovement == -1) {
                 return true;
             }
-            else if(super.hasMoved == false && xMovement == 0 && yMovement == -2) {
+            //Also needs to check y3 square
+            else if(super.hasMoved == false && xMovement == 0 && yMovement == -2 && ySquare.occupyingPiece == null) {
                 return true;
             }
             else {
@@ -32,13 +33,14 @@ public class Pawn extends Piece {
             }
         }
         else if(!pieceIsWhite) {
-            if(xMovement == 0 && yMovement == 1) {
+            if(xMovement == 0 && yMovement == 1 && ySquare.occupyingPiece == null) {
                 return true;
             }
             else if(ySquare.getPiece() != null && xMovement == 1 && yMovement == 1) {
                 return true;
             }
-            else if(super.hasMoved == false && xMovement == 0 && yMovement == 2) {
+            //Also needs to check y6 square
+            else if(super.hasMoved == false && xMovement == 0 && yMovement == 2 && ySquare.occupyingPiece == null) {
                 return true;
             }
             else {

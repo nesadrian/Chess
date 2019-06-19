@@ -1,6 +1,7 @@
 package chess;
 
 import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class Square extends JPanel {
     int posY;
     Piece occupyingPiece;
     JLabel icon;
+    JLabel squareNameLabel;
     
     public Square(String name, int x, int y, Piece occupyingPiece, Square up, Square down, Square left, Square right,
     Square diagUpLeft, Square diagUpRight, Square diagDownLeft, Square diagDownRight, Color squareColor) throws IOException {
@@ -28,8 +30,9 @@ public class Square extends JPanel {
             icon = new JLabel(new ImageIcon(scaledImg));
             super.add(icon);
         }
+        squareNameLabel = new JLabel(squareName);
+        super.add(squareNameLabel);
         super.setBackground(squareColor);
-        // Possibly change label color depending on square color
     }
     
     public void removePiece() {
