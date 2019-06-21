@@ -12,7 +12,7 @@ public class Pawn extends Piece {
         }
     }
     @Override
-    public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
+    public boolean validMovementPattern(Square xSquare, Square ySquare){
         int xMovement = getPieceMovementX(xSquare, ySquare);
         int yMovement = xSquare.posY - ySquare.posY; //Used to check directional movement
         System.out.println(xMovement + " " + yMovement);

@@ -16,11 +16,11 @@ public class Piece {
         hasMoved = false;
     }
     
-    public boolean checkMovementPatternValidity(Square xMovement, Square yMovement) {
+    public boolean validMovementPattern(Square xMovement, Square yMovement) {
         return false;
     }
     
-    public boolean checkPieceIsMoversColor(boolean isWhiteTurn) {
+    public boolean pieceMoversColor(boolean isWhiteTurn) {
         return isWhiteTurn == pieceIsWhite;
     }
     

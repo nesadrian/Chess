@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -89,16 +88,15 @@ public class Board {
     
     public Board() throws IOException {
         isWhiteTurn = true;
-        jpanelsHolder = new JPanel();
         boardFrame = new JFrame();
+        jpanelsHolder = new JPanel();
         boardGrid = new GridLayout(8, 8);
+        blackSquareColor = Color.decode("#5a91c7");
+        whiteSquareColor = Color.decode("#fffefc");
         jpanelsHolder.setSize(800, 800);
         jpanelsHolder.setLayout(boardGrid);
         boardFrame.add(jpanelsHolder);
-        blackSquareColor = Color.decode("#5a91c7");
-        whiteSquareColor = Color.decode("#fffefc");
        
-        //Name, x, y, piece, Up, Down, Left, Right, DUL, DUR, DDL, DDR
         a1 = new Square("a1", 1, 1, new Rook(1, 8, true), blackSquareColor);
         a2 = new Square("a2", 1, 2, new Pawn(2, 8, true),whiteSquareColor);
         a3 = new Square("a3", 1, 3, null, blackSquareColor);
@@ -247,7 +245,7 @@ public class Board {
     }
     
     public void movePiece(String move) throws IOException {
-        Square[] squares = getSquaresFromNames(moveToArray(move));
+        Square[] squares = getSquaresFromNames(playerinputToArray(move));
         Square xSquare = squares[0];
         Square ySquare = squares[1];
         if(validPieces(xSquare,ySquare)) {
@@ -317,7 +315,7 @@ public class Board {
                 }
             }
             else {
-                if(xSquare.occupyingPiece.checkMovementPatternValidity(xSquare, ySquare)) {
+                if(xSquare.occupyingPiece.validMovementPattern(xSquare, ySquare)) {
                     if(noMovementCollision(xSquare, ySquare)) {
                         ySquare.replacePiece(xSquare.occupyingPiece);
                         xSquare.removePiece();
@@ -331,14 +329,14 @@ public class Board {
         }
     }
     
-    public boolean noMovementCollision(Square xSquare, Square ySquare) {
+    private boolean noMovementCollision(Square xSquare, Square ySquare) {
         if(xSquare.occupyingPiece.name.equals("Knight")) {
             return true;
         }
         int xTotalMovement = ySquare.posX - xSquare.posX;
         int yTotalMovement = ySquare.posY - xSquare.posY;
-        int xMovementDirection = getSingleSquareMovement(xTotalMovement);
-        int yMovementDirection = getSingleSquareMovement(yTotalMovement);
+        int xMovementDirection = getMovementDirection(xTotalMovement);
+        int yMovementDirection = getMovementDirection(yTotalMovement);
         Square currentSquare = xSquare;
         int currentPosX = xSquare.posX;
         int currentPosY = xSquare.posY;
@@ -359,9 +357,9 @@ public class Board {
     }
     
     private boolean validPieces(Square x, Square y) {
-        if(x.pieceExists() && x.getPiece().checkPieceIsMoversColor(isWhiteTurn)) {
+        if(x.pieceExists() && x.getPiece().pieceMoversColor(isWhiteTurn)) {
             if(y.pieceExists()) {
-                if(y.getPiece().checkPieceIsMoversColor(!isWhiteTurn)) {
+                if(y.getPiece().pieceMoversColor(!isWhiteTurn)) {
                     return true;
                 }
                 else {
@@ -380,7 +378,7 @@ public class Board {
         return false;
     }
     
-    private String[] moveToArray(String move) {
+    private String[] playerinputToArray(String move) {
         String[] parts = move.split("-");
         String xSquare = parts[0].toLowerCase();
         String ySquare = parts[1].toLowerCase();
@@ -423,7 +421,7 @@ public class Board {
         return move.equals("E1-G1") || move.equals("E1-C1") || move.equals("E8-C8") || move.equals("E8-G8");
     }
     
-    private int getSingleSquareMovement(int totalMovement) {
+    private int getMovementDirection(int totalMovement) {
         if(totalMovement < 0) {
             return -1;
         }

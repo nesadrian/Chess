@@ -12,7 +12,7 @@ public class Queen extends Piece {
         }   
     }
     @Override
-    public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
+    public boolean validMovementPattern(Square xSquare, Square ySquare){
         int xMovement = getPieceMovementX(xSquare, ySquare);
         int yMovement = getPieceMovementY(xSquare, ySquare);
         if(xMovement == 0 || yMovement == 0 || xMovement - yMovement == 0) {

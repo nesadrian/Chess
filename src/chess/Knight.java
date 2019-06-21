@@ -12,7 +12,7 @@ public class Knight extends Piece {
         }
     }
     @Override
-        public boolean checkMovementPatternValidity(Square xSquare, Square ySquare){
+        public boolean validMovementPattern(Square xSquare, Square ySquare){
         int xMovement = getPieceMovementX(xSquare, ySquare);
         int yMovement = getPieceMovementY(xSquare, ySquare);
         if((xMovement == 2 && yMovement == 1) || (xMovement == 1 && yMovement == 2)) {
