@@ -51,13 +51,7 @@ public class Square extends JPanel {
     }
     
     public boolean pieceExists() {
-        if(occupyingPiece != null) {
-            return true;
-        }
-        else {
-            System.out.println("Piece in " + squareName + " does not exist");
-            return false;
-        }
+        return occupyingPiece != null;
     }
     
     public Piece getPiece() {

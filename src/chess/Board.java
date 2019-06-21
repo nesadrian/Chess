@@ -331,13 +331,21 @@ public class Board {
         if(xSquare.occupyingPiece.name.equals("Knight")) {
             return true;
         }
-        int xMovement = ySquare.posX - xSquare.posX;
-        int yMovement = ySquare.posY - xSquare.posY;
+        int xTotalMovement = ySquare.posX - xSquare.posX;
+        int yTotalMovement = ySquare.posY - xSquare.posY;
+        int xMovementDirection = getSingleSquareMovement(xTotalMovement);
+        int yMovementDirection = getSingleSquareMovement(yTotalMovement);
         Square currentSquare = xSquare;
+        int currentPosX = xSquare.posX;
+        int currentPosY = xSquare.posY;
         while(currentSquare != ySquare) {
-            int xPos = currentSquare.posX + xMovement;
-            int yPos = currentSquare.posY + yMovement;
-            currentSquare = getSquareFromCoordinates(xPos, yPos);
+            if(currentPosX != ySquare.posX) {
+                currentPosX += xMovementDirection;
+            }
+            if(currentPosY != ySquare.posY) {
+                currentPosY += yMovementDirection;
+            }
+            currentSquare = getSquareFromCoordinates(currentPosX, currentPosY);
             if(currentSquare.occupyingPiece != null && currentSquare != ySquare) {
                 System.out.println("Selected piece will collide with another piece");
                 return false;
@@ -410,5 +418,17 @@ public class Board {
     private boolean playerCastling(String move) {
         return move.equals("E1-G1") || move.equals("E1-C1") || move.equals("E8-C8") || move.equals("E8-G8");
     }
-
+    
+    private int getSingleSquareMovement(int totalMovement) {
+        if(totalMovement < 0) {
+            return -1;
+        }
+        else if(totalMovement > 0) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+    
 }
