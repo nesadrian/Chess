@@ -24,9 +24,10 @@ public class GameController {
     }
     
     private void playerTurn(String move) throws IOException {
-        chessBoard.movePiece(move);
-        moveList.add(move);
-        printRoundInfo();
+        if(chessBoard.movePiece(move)) {
+            moveList.add(move);
+            printRoundInfo();
+        }
         String nextMove = playerInput.nextLine();
         playerTurn(nextMove);
     }

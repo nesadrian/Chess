@@ -244,7 +244,7 @@ public class Board {
         boardFrame.setVisible(true);
     }
     
-    public void movePiece(String move) throws IOException {
+    public boolean movePiece(String move) throws IOException {
         Square[] squares = getSquaresFromNames(playerinputToArray(move));
         Square xSquare = squares[0];
         Square ySquare = squares[1];
@@ -255,9 +255,11 @@ public class Board {
                     case "E1-G1":
                         if(f1.pieceExists() || g1.pieceExists()) {
                             System.out.println("Error: Square/s between king and rook is occupied");
+                            return false;
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
                             System.out.println("Error: King or rook has moved");
+                            return false;
                         }
                         else {
                             g1.replacePiece(e1.getPiece());
@@ -270,9 +272,11 @@ public class Board {
                     case "E1-C1":
                         if(d1.pieceExists() || c1.pieceExists() || b1.pieceExists()) {
                             System.out.println("Error: Square/s between king and rook is occupied");
+                            return false;
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
                             System.out.println("Error: King or rook has moved");
+                            return false;
                         }
                         else {
                             c1.replacePiece(e1.getPiece());
@@ -280,14 +284,18 @@ public class Board {
                             d1.replacePiece(a1.getPiece());
                             a1.removePiece();
                             isWhiteTurn = !isWhiteTurn;
+                            boardFrame.repaint();
+                            boardFrame.revalidate();
+                            return true;
                         }
-                    break;
                     case "E8-C8":
                         if(d8.pieceExists() || c8.pieceExists() || b8.pieceExists()) {
                             System.out.println("Error: Square/s between king and rook is occupied");
+                            return false;
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
                             System.out.println("Error: King or rook has moved");
+                            return false;
                         }
                         else {
                             c8.replacePiece(e8.getPiece());
@@ -295,14 +303,18 @@ public class Board {
                             d8.replacePiece(a8.getPiece());
                             a8.removePiece();
                             isWhiteTurn = !isWhiteTurn;
+                            boardFrame.repaint();
+                            boardFrame.revalidate();
+                            return true;
                         }
-                    break;
                     case "E8-G8":
                         if(f8.pieceExists() || g8.pieceExists()) {
                                 System.out.println("Error: Square/s between king and rook is occupied");
+                                return false;
                         }
                         else if(e1.getPiece().hasMoved || g1.getPiece().hasMoved) {
                                 System.out.println("Error: King or rook has moved");
+                                return false;
                         }
                         else {
                             g8.replacePiece(e8.getPiece());
@@ -310,8 +322,10 @@ public class Board {
                             f8.replacePiece(h8.getPiece());
                             h8.removePiece();
                             isWhiteTurn = !isWhiteTurn;
+                            boardFrame.repaint();
+                            boardFrame.revalidate();
+                            return true;
                         }
-                    break;
                 }
             }
             else {
@@ -321,12 +335,15 @@ public class Board {
                         xSquare.removePiece();
                         ySquare.getPiece().hasMoved = true;
                         isWhiteTurn = !isWhiteTurn;
+                        boardFrame.repaint();
+                        boardFrame.revalidate();
+                        return true;
                     }
                 }
             }
-            boardFrame.repaint();
-            boardFrame.revalidate();
+            
         }
+        return false;
     }
     
     private boolean noMovementCollision(Square xSquare, Square ySquare) {
@@ -432,5 +449,4 @@ public class Board {
             return 0;
         }
     }
-    
 }
