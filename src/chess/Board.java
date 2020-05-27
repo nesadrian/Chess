@@ -449,4 +449,13 @@ public class Board {
             return 0;
         }
     }
+    
+    public String getPlayerTurnColor() {
+        if(isWhiteTurn) {
+            return "White";
+        }
+        else {
+            return "Black";
+        }
+    }
 }

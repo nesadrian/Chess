@@ -18,7 +18,7 @@ public class GameController {
     public void startGame() throws IOException, NoSuchFieldException {
         System.out.println("This program uses coordinate chess notation as input to determine moves, e.g. E2-E4");
         System.out.println("---------------------------------------------------------------------");
-        System.out.println("White player's turn");
+        printPlayerTurn();
         String nextMove = playerInput.nextLine();
         playerTurn(nextMove);
     }
@@ -26,13 +26,14 @@ public class GameController {
     private void playerTurn(String move) throws IOException {
         if(chessBoard.movePiece(move)) {
             moveList.add(move);
-            printRoundInfo();
+            printMoveHistory();
+            printPlayerTurn();
         }
         String nextMove = playerInput.nextLine();
         playerTurn(nextMove);
     }
     
-    private void printRoundInfo() {
+    private void printMoveHistory() {
         System.out.print("-------------------");
         for(int i = 0; i < moveList.size(); i++) {
             if(i % 2 == 0) {
@@ -43,12 +44,10 @@ public class GameController {
         }
         System.out.println("");
         System.out.println("-------------------");
-        
-        if (chessBoard.isWhiteTurn) {
-            System.out.println("White player's turn");
-        }
-        else if (!chessBoard.isWhiteTurn) {
-            System.out.println("Black player's turn");
-        }
+    }
+    
+    private void printPlayerTurn() {
+        String playerTurnColor = chessBoard.getPlayerTurnColor();
+        System.out.println(playerTurnColor + " player's turn");
     }
 }
